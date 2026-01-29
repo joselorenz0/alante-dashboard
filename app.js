@@ -207,22 +207,21 @@ function populateSelect(selectEl, values, placeholder){
   orgSelect.value = orgs.includes('PCCA') ? 'PCCA' : '';
 
   function apply(){
-    const org = orgSelect.value;
-    const ev = eventSelect.value;
+    const org = orgSelect.value || '';
+  const ev  = eventSelect.value || '';
 
-    const orgForLeft = org || (orgs[0] || '');
-    if(orgForLeft) {
-      renderPerformanceTable(pmRows, orgForLeft);
-      renderProgramOutcomes(pmRows, orgForLeft);
-    }
+  // LEFT tables: filter by Org (or show all)
+  const pmFiltered = org ? pmRows.filter(r => r.Org === org) : pmRows.slice();
+  renderPerformanceTable(pmFiltered, org);
+  renderProgramOutcomes(pmFiltered, org);
 
-    let filtered = logRows.slice();
-    if(org) filtered = filtered.filter(r=>r.Org===org);
-    if(ev) filtered = filtered.filter(r=>r.Event===ev);
+  // RIGHT feed: filter by Org + Event
+  let feed = logRows.slice();
+  if(org) feed = feed.filter(r => r.Org === org);
+  if(ev)  feed = feed.filter(r => r.Event === ev);
 
-    // Sort by date desc if parseable
-    filtered.sort((a,b)=> (String(b.Date)).localeCompare(String(a.Date)));
-    renderFeed(filtered);
+  feed.sort((a,b)=> (String(b.Date)).localeCompare(String(a.Date)));
+  renderFeed(feed);
   }
 
   orgSelect.addEventListener('change', apply);
