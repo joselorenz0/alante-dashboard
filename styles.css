@@ -83,6 +83,7 @@ select{
   background:#fff;color:var(--text);font-weight:600;font-size:13px;
 }
 .feed{
+  max-height:640px; /* scrollable panel */
   overflow:auto;
   padding:12px;
 }
@@ -133,8 +134,3 @@ select{
   height:fit-content;
 }
 .sticky{position:sticky;top:16px}
-
-/* Full-height right panel feed */
-.right .card.sticky{ height: calc(100vh - 32px); }
-.right .card.sticky .card-body{ display:flex; flex-direction:column; height: 100%; }
-.feed{ flex:1; overflow:auto; }

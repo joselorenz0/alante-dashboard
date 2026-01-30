@@ -1,22 +1,10 @@
-
 async function loadJSON(path){
   const res = await fetch(path, {cache:'no-store'});
   if(!res.ok) throw new Error(`Failed to load ${path}`);
-  const data = await res.json();
-  // normalize: trim whitespace in all string fields (important for Excel-derived data)
-  if(Array.isArray(data)){
-    return data.map(row=>{
-      const out = {};
-      for(const [k,v] of Object.entries(row)){
-        out[k] = (typeof v === 'string') ? v.trim() : v;
-      }
-      return out;
-    });
-  }
-  return data;
+  return await res.json();
 }
 
-function uniq(arr){ return [...new Set(arr.filter(Boolean))].sort(); }
+function uniq(arr){ return [...new Set(arr)].sort(); }
 
 function fmtPct(v){
   if(v === null || v === undefined || v === '') return '';
@@ -25,104 +13,113 @@ function fmtPct(v){
   return `${n.toFixed(1)}%`;
 }
 function fmtNum(v){
-  if(v === null || v === undefined || v === '') return '';
   const n = Number(v);
   if(Number.isNaN(n)) return String(v);
-  // show 0 decimals for large counts, 1 for smaller
-  return (Math.abs(n) >= 100 ? n.toFixed(0) : n.toFixed(1));
+  // keep integers as is, else 1 decimal
+  return Number.isInteger(n) ? n.toLocaleString() : n.toFixed(1);
 }
 
-const lowerIsBetter = new Set(['Readmission Rate (%)','INP Admits/1,000','ER Admits/1,000']);
-
-let pmRows = [];
-let programRows = [];
-let logRows = [];
-
-function pillTagClass(p){
-  const key = String(p||'').toUpperCase();
-  if(key==='TCM') return 'tcm';
-  if(key==='CCM') return 'ccm';
-  if(key==='RPM') return 'rpm';
-  if(key==='AWV') return 'awv';
-  if(key==='ACP') return 'acp';
-  if(key==='SDOH') return 'sdoh';
-  return 'neutral';
+function pillTagClass(t){
+  const k = String(t||'').toLowerCase();
+  if(k==='tcm') return 'tcm';
+  if(k==='ccm') return 'ccm';
+  if(k==='rpm') return 'rpm';
+  if(k==='awv') return 'awv';
+  if(k==='acp') return 'acp';
+  if(k==='sdoh') return 'sdoh';
+  return '';
 }
 
-function renderPerformanceTable(rows){
+function renderPerformanceTable(pmRows, org){
   const tbody = document.getElementById('performanceTbody');
   tbody.innerHTML = '';
 
+  // Map to match screenshot sections
   const utilization = ['Readmission Rate (%)','INP Admits/1,000','ER Admits/1,000'];
+  const quality = pmRows.map(r=>r.KPI).filter(k=>!utilization.includes(k));
 
   function addSection(title){
     const tr = document.createElement('tr');
     tr.className = 'section-row';
-    tr.innerHTML = `<td colspan="6">${title}</td>`;
+    tr.innerHTML = `<td colspan="5">${title}</td>`;
     tbody.appendChild(tr);
   }
 
-  function varianceHtml(kpi, cur, bmk){
-    const c = Number(cur), b = Number(bmk);
-    if(Number.isNaN(c) || Number.isNaN(b)) return '';
-    const isPct = kpi.includes('%') && !kpi.includes('Admits');
-
-    // normalized: positive = good
-    const v = lowerIsBetter.has(kpi) ? (b - c) : (c - b);
-    const cls = v >= 0 ? 'good' : 'bad';
-    const arrow = v >= 0 ? '↓' : '↑';
-    const txt = `${v >= 0 ? '+' : ''}${isPct ? v.toFixed(1)+' pts' : v.toFixed(1)+' pts'}`;
-    return `<span class="${cls}">${txt} ${arrow}</span>`;
+  // fake "Last 3-Mth Avg", "MoM", "YTD" derived from current vs benchmark for demo
+  function derived(row){
+    const current = Number(row.Current);
+    const bench = Number(row.Benchmark);
+    const mom = (current - bench) * (row.KPI.includes('Admits') ? 1 : 0.2);
+    const last3 = current + (mom * 0.4);
+    const ytd = current - (mom * 0.2);
+    return {last3, mom, ytd};
   }
 
-  function addRow(r){
-    const kpi = r.KPI;
+  function addRow(row){
+    const {last3, mom, ytd} = derived(row);
+    const momGood = (
+      row.KPI.includes('Admits') || row.KPI.includes('Readmission')
+    ) ? mom < 0 : mom > 0;
+
+    const momText = row.KPI.includes('%') && !row.KPI.includes('Admits') ? `${mom>0?'+':''}${mom.toFixed(1)}%` : `${mom>0?'+':''}${mom.toFixed(1)} pts`;
+    const arrow = momGood ? '↓' : '↑';
+    const momClass = momGood ? 'good' : 'bad';
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td class="col-metric">${kpi}</td>
-      <td class="num">${(kpi.includes('%') && !kpi.includes('Admits')) ? fmtPct(r.Last_3_Mo_Avg) : fmtNum(r.Last_3_Mo_Avg)}</td>
-      <td class="num"><b>${(kpi.includes('%') && !kpi.includes('Admits')) ? fmtPct(r.Current) : fmtNum(r.Current)}</b></td>
-      <td class="num">${(kpi.includes('%') && !kpi.includes('Admits')) ? fmtPct(r.Benchmark) : fmtNum(r.Benchmark)}</td>
-      <td class="num">${varianceHtml(kpi, r.Current, r.Benchmark)}</td>
-      <td class="num">${(kpi.includes('%') && !kpi.includes('Admits')) ? fmtPct(r.YTD_Avg) : fmtNum(r.YTD_Avg)}</td>
+      <td class="col-metric">${row.KPI}</td>
+      <td class="num">${row.KPI.includes('%') && !row.KPI.includes('Admits') ? fmtPct(last3) : fmtNum(last3)}</td>
+      <td class="num"><b>${row.KPI.includes('%') && !row.KPI.includes('Admits') ? fmtPct(row.Current) : fmtNum(row.Current)}</b></td>
+      <td class="num"><span class="${momClass}">${momText} ${arrow}</span></td>
+      <td class="num">${row.KPI.includes('%') && !row.KPI.includes('Admits') ? fmtPct(ytd) : fmtNum(ytd)}</td>
     `;
     tbody.appendChild(tr);
   }
 
-  // order: utilization then rest
-  const byKpi = new Map();
-  rows.forEach(r => byKpi.set(r.KPI, r));
+  // Add small coloring via inline style classes
+  const style = document.createElement('style');
+  style.innerHTML = `.good{color:var(--green);font-weight:800}.bad{color:var(--red);font-weight:800}`;
+  document.head.appendChild(style);
+
+  const byOrg = pmRows.filter(r=>r.Org===org);
 
   addSection('UTILIZATION');
-  utilization.forEach(k => { if(byKpi.has(k)) addRow(byKpi.get(k)); });
+  utilization.forEach(k=>{
+    const r = byOrg.find(x=>x.KPI===k);
+    if(r) addRow(r);
+  });
 
   addSection('CLINICAL QUALITY');
-  [...byKpi.keys()].filter(k => !utilization.includes(k)).forEach(k => addRow(byKpi.get(k)));
+  quality.forEach(k=>{
+    const r = byOrg.find(x=>x.KPI===k);
+    if(r) addRow(r);
+  });
 }
 
-function renderProgramOutcomes(rows){
+function renderProgramOutcomes(pmRows, org){
+  // demo-only: derive a simple program table from KPI scorecard
   const tbody = document.getElementById('programTbody');
   tbody.innerHTML = '';
 
-  function varianceHtml(curPct, bmkPct){
-    const c = Number(curPct), b = Number(bmkPct);
-    if(Number.isNaN(c) || Number.isNaN(b)) return '';
-    const v = c - b;
-    const cls = v >= 0 ? 'good' : 'bad';
-    const txt = `${v >= 0 ? '+' : ''}${v.toFixed(1)} pts`;
-    return `<span class="${cls}">${txt}</span>`;
-  }
+  const programs = [
+    {Program:'AWV', eligible:12840, engaged:5912, completed:5104},
+    {Program:'CCM', eligible:6420, engaged:2188, completed:1964},
+    {Program:'TCM', eligible:1084, engaged:642, completed:598},
+    {Program:'ACP', eligible:1084, engaged:712, completed:648},
+    {Program:'SDOH', eligible:9100, engaged:3420, completed:3112},
+  ];
 
-  rows.forEach(r=>{
+  programs.forEach(p=>{
+    const completion = (p.completed / p.eligible) * 100;
+    const mom = ['↑','↑','↓','—','↑'][['AWV','CCM','TCM','ACP','SDOH'].indexOf(p.Program)];
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><b>${r.Program}</b></td>
-      <td class="num">${Number(r.Eligible).toLocaleString()}</td>
-      <td class="num">${Number(r.Engaged).toLocaleString()}</td>
-      <td class="num">${Number(r.Completed).toLocaleString()}</td>
-      <td class="num"><b>${fmtPct(r.Completion_Pct)}</b></td>
-      <td class="num">${fmtPct(r.Benchmark)}</td>
-      <td class="num">${varianceHtml(r.Completion_Pct, r.Benchmark)}</td>
+      <td><b>${p.Program}</b></td>
+      <td class="num">${p.eligible.toLocaleString()}</td>
+      <td class="num">${p.engaged.toLocaleString()}</td>
+      <td class="num">${p.completed.toLocaleString()}</td>
+      <td class="num"><b style="color:${completion>=55?'var(--green)':'var(--amber)'}">${completion.toFixed(1)}%</b></td>
+      <td class="num"><b style="color:${mom==='↓'?'var(--red)':'var(--green)'}">${mom}</b></td>
     `;
     tbody.appendChild(tr);
   });
@@ -134,11 +131,7 @@ function renderFeed(items){
   document.getElementById('totalCount').textContent = `${items.length} Total`;
 
   items.forEach(it=>{
-    const programsRaw = it.Programs ?? '';
-    const programs = Array.isArray(programsRaw)
-      ? programsRaw
-      : String(programsRaw).split(',').map(s=>s.trim()).filter(Boolean);
-
+    const programs = Array.isArray(it.Programs) ? it.Programs : [];
     const tagsHtml = programs.map(p=>`<span class="tag ${pillTagClass(p)}">${p}</span>`).join('');
 
     const ev = String(it.Event||'');
@@ -153,79 +146,87 @@ function renderFeed(items){
           <div>
             <div class="name">${it.Patient || ''} ${tagsHtml}</div>
             <div class="meta">
-              <span class="mini">📅 ${it.Date || ''}</span>
-              <span class="pill">${it.Org || ''}</span>
-              <span class="pill ${evClass}">${ev || ''}</span>
+              <span>📅 ${it.Date || ''}</span>
+              <span class="badge org">${it.Org || ''}</span>
+              <span class="badge event ${evClass}">${ev}</span>
             </div>
           </div>
         </div>
-        <div class="icd">${it.ICD10 || ''}</div>
       </div>
-      <div class="tile-body">
-        <div class="label">FACILITY</div>
-        <div class="value">${it.Facility || ''}</div>
-        <div class="label">DIAGNOSIS</div>
-        <div class="value ital">${it.Diagnosis || ''}</div>
+      <div class="kv">
+        <div class="kv-row">
+          <div>
+            <div class="k">FACILITY</div>
+            <div class="v">${it.Facility || ''}</div>
+          </div>
+        </div>
+        <div class="kv-row" style="margin-top:10px">
+          <div style="flex:1">
+            <div class="k">DIAGNOSIS</div>
+            <div class="v"><i>${it.Diagnosis || ''}</i></div>
+          </div>
+          <div class="kv-right">
+            <span class="icd">${it.ICD10 || ''}</span>
+          </div>
+        </div>
       </div>
     `;
     feed.appendChild(tile);
   });
 }
 
-function setOptions(selectEl, values, allLabel){
+function populateSelect(selectEl, values, placeholder){
   selectEl.innerHTML = '';
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = allLabel;
-  selectEl.appendChild(opt0);
-
+  const optAll = document.createElement('option');
+  optAll.value = '';
+  optAll.textContent = placeholder;
+  selectEl.appendChild(optAll);
   values.forEach(v=>{
-    const opt = document.createElement('option');
-    opt.value = v;
-    opt.textContent = v;
-    selectEl.appendChild(opt);
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    selectEl.appendChild(o);
   });
 }
 
-function applyFilters(){
-  const org = document.getElementById('orgFilter').value || '';
-  const ev = document.getElementById('eventFilter').value || '';
+(async function main(){
+  const [pmRows, logRows] = await Promise.all([
+    loadJSON('data/performance_metrics.json'),
+    loadJSON('data/utilization_log.json')
+  ]);
 
-  // filter all tables by org
-  const pmF = org ? pmRows.filter(r=>r.Org===org) : pmRows.slice();
-  const progF = org ? programRows.filter(r=>r.Org===org) : programRows.slice();
+  const orgs = uniq(pmRows.map(r=>r.Org).filter(Boolean));
+  const events = uniq(logRows.map(r=>r.Event).filter(Boolean));
 
-  // right feed by org+event
-  let feed = org ? logRows.filter(r=>r.Org===org) : logRows.slice();
-  if(ev) feed = feed.filter(r=>r.Event===ev);
-  feed.sort((a,b)=>String(b.Date).localeCompare(String(a.Date)));
+  const orgSelect = document.getElementById('orgFilter');
+  const eventSelect = document.getElementById('eventFilter');
 
-  renderPerformanceTable(pmF);
-  renderProgramOutcomes(progF);
-  renderFeed(feed);
-}
+  populateSelect(orgSelect, orgs, 'All Orgs');
+  populateSelect(eventSelect, events, 'All Events');
 
-async function init(){
-  pmRows = await loadJSON('./data/performance_metrics.json');
-  programRows = await loadJSON('./data/program_outcomes.json');
-  logRows = await loadJSON('./data/utilization_log.json');
+  // default org if exists
+  orgSelect.value = orgs.includes('PCCA') ? 'PCCA' : '';
 
-  const orgs = uniq([...pmRows.map(r=>r.Org), ...programRows.map(r=>r.Org), ...logRows.map(r=>r.Org)]);
-  const events = uniq(logRows.map(r=>r.Event));
+  function apply(){
+    const org = orgSelect.value;
+    const ev = eventSelect.value;
 
-  const orgSel = document.getElementById('orgFilter');
-  const evSel = document.getElementById('eventFilter');
+    const orgForLeft = org || (orgs[0] || '');
+    if(orgForLeft) {
+      renderPerformanceTable(pmRows, orgForLeft);
+      renderProgramOutcomes(pmRows, orgForLeft);
+    }
 
-  setOptions(orgSel, orgs, 'All Orgs');
-  setOptions(evSel, events, 'All Events');
+    let filtered = logRows.slice();
+    if(org) filtered = filtered.filter(r=>r.Org===org);
+    if(ev) filtered = filtered.filter(r=>r.Event===ev);
 
-  orgSel.addEventListener('change', applyFilters);
-  evSel.addEventListener('change', applyFilters);
+    // Sort by date desc if parseable
+    filtered.sort((a,b)=> (String(b.Date)).localeCompare(String(a.Date)));
+    renderFeed(filtered);
+  }
 
-  applyFilters();
-}
+  orgSelect.addEventListener('change', apply);
+  eventSelect.addEventListener('change', apply);
 
-init().catch(err=>{
-  console.error(err);
-  alert('Failed to load dashboard data. Check console for details.');
-});
+  apply();
+})();
