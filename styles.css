@@ -82,24 +82,12 @@ select{
   border:1px solid var(--border);border-radius:10px;padding:8px 10px;
   background:#fff;color:var(--text);font-weight:600;font-size:13px;
 }
-/* Make right panel stretch to viewport height */
-.right .card.sticky{
-  height: calc(100vh - 32px);
-}
-.right .card.sticky .card-body{
-  height: calc(100% - 0px);
-  display:flex;
-  flex-direction:column;
-}
-
-/* Feed takes remaining space and scrolls */
 .feed{
-  flex: 1;
-  max-height: none;
-  overflow: auto;
-  padding: 12px;
+  flex:1;
+  max-height:none;
+  overflow:auto;
+  padding:12px;
 }
-
 .tile{
   border:1px solid var(--border);
   border-radius:14px;
@@ -147,3 +135,8 @@ select{
   height:fit-content;
 }
 .sticky{position:sticky;top:16px}
+/* Make right panel fill viewport height */
+.right .card.sticky{height:calc(100vh - 32px);}
+.right .card.sticky{display:flex;flex-direction:column;}
+.right .card.sticky .filters{flex:0 0 auto;}
+
