@@ -19,6 +19,13 @@
       </a>
     </header>
 
+    <div class="global-filter">
+      <label>
+        Org
+        <select id="globalOrgFilter"></select>
+      </label>
+    </div>
+
     <div class="layout">
       <main class="left">
         <section class="card">
@@ -30,7 +37,8 @@
                   <th class="col-metric">Metric</th>
                   <th>Last 3-Mth Avg</th>
                   <th>Current Month</th>
-                  <th>MoM Change</th>
+                  <th>Benchmark</th>
+                  <th>Variance</th>
                   <th>YTD Avg</th>
                 </tr>
               </thead>
@@ -39,7 +47,24 @@
           </div>
         </section>
 
-        
+        <section class="card" style="margin-top:18px">
+          <div class="card-title">Program Outcomes</div>
+          <div class="card-body">
+            <table class="table" id="programTable">
+              <thead>
+                <tr>
+                  <th>Program</th>
+                  <th>Eligible</th>
+                  <th>Engaged</th>
+                  <th>Completed</th>
+                  <th>Completion %</th>
+                  <th>MoM</th>
+                </tr>
+              </thead>
+              <tbody id="programTbody"></tbody>
+            </table>
+          </div>
+        </section>
       </main>
 
       <aside class="right">
