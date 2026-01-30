@@ -83,7 +83,8 @@ select{
   background:#fff;color:var(--text);font-weight:600;font-size:13px;
 }
 .feed{
-  max-height:640px; /* scrollable panel */
+  flex:1;
+  max-height:none;
   overflow:auto;
   padding:12px;
 }
@@ -134,3 +135,8 @@ select{
   height:fit-content;
 }
 .sticky{position:sticky;top:16px}
+/* Make right panel fill viewport height */
+.right .card.sticky{height:calc(100vh - 32px);}
+.right .card.sticky{display:flex;flex-direction:column;}
+.right .card.sticky .filters{flex:0 0 auto;}
+

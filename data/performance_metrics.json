@@ -3,312 +3,416 @@
     "Org": "PCCA",
     "KPI": "INP Admits/1,000",
     "Current": 238.0,
-    "Benchmark": 250
+    "Benchmark": 250,
+    "Last_3_Mo_Avg": 241.6,
+    "YTD_Avg": 224.1
   },
   {
     "Org": "PCCA",
     "KPI": "ER Admits/1,000",
     "Current": 292.0,
-    "Benchmark": 300
+    "Benchmark": 300,
+    "Last_3_Mo_Avg": 276.8,
+    "YTD_Avg": 288.3
   },
   {
     "Org": "PCCA",
     "KPI": "Readmission Rate (%)",
     "Current": 15.8,
-    "Benchmark": 17
+    "Benchmark": 17,
+    "Last_3_Mo_Avg": 16.4,
+    "YTD_Avg": 15.5
   },
   {
     "Org": "PCCA",
     "KPI": "A1c Controlled %",
     "Current": 72.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 75.4,
+    "YTD_Avg": 70.2
   },
   {
     "Org": "PCCA",
     "KPI": "BP Control %",
     "Current": 69.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 62.3,
+    "YTD_Avg": 68.2
   },
   {
     "Org": "PCCA",
     "KPI": "Depression Screening w/ F/U",
     "Current": 91.0,
-    "Benchmark": 90
+    "Benchmark": 90,
+    "Last_3_Mo_Avg": 85.1,
+    "YTD_Avg": 96.4
   },
   {
     "Org": "PCCA",
     "KPI": "Colorectal Screening %",
     "Current": 73.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 73.5,
+    "YTD_Avg": 70.5
   },
   {
     "Org": "PCCA",
     "KPI": "Breast Cancer Screening %",
     "Current": 71.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 69.9,
+    "YTD_Avg": 73.7
   },
   {
     "Org": "PCCA",
     "KPI": "AWV Completion %",
     "Current": 64.0,
-    "Benchmark": 60
+    "Benchmark": 60,
+    "Last_3_Mo_Avg": 63.9,
+    "YTD_Avg": 59.7
   },
   {
     "Org": "PCCA",
     "KPI": "TCM7 Completion %",
     "Current": 96.0,
-    "Benchmark": 95
+    "Benchmark": 95,
+    "Last_3_Mo_Avg": 91.9,
+    "YTD_Avg": 94.7
   },
   {
     "Org": "PCCA",
     "KPI": "ACP Completion %",
     "Current": 82.0,
-    "Benchmark": 80
+    "Benchmark": 80,
+    "Last_3_Mo_Avg": 85.6,
+    "YTD_Avg": 82.5
   },
   {
     "Org": "PCCA",
     "KPI": "SDOH Completion %",
     "Current": 98.0,
-    "Benchmark": 100
+    "Benchmark": 100,
+    "Last_3_Mo_Avg": 101.8,
+    "YTD_Avg": 100.3
   },
   {
     "Org": "PCCA",
     "KPI": "CCM Converted %",
     "Current": 89.0,
-    "Benchmark": 88
+    "Benchmark": 88,
+    "Last_3_Mo_Avg": 89.3,
+    "YTD_Avg": 91.5
   },
   {
     "Org": "Novum",
     "KPI": "INP Admits/1,000",
     "Current": 255.0,
-    "Benchmark": 250
+    "Benchmark": 250,
+    "Last_3_Mo_Avg": 269.4,
+    "YTD_Avg": 263.1
   },
   {
     "Org": "Novum",
     "KPI": "ER Admits/1,000",
     "Current": 287.0,
-    "Benchmark": 300
+    "Benchmark": 300,
+    "Last_3_Mo_Avg": 293.7,
+    "YTD_Avg": 283.0
   },
   {
     "Org": "Novum",
     "KPI": "Readmission Rate (%)",
     "Current": 16.2,
-    "Benchmark": 17
+    "Benchmark": 17,
+    "Last_3_Mo_Avg": 15.5,
+    "YTD_Avg": 15.9
   },
   {
     "Org": "Novum",
     "KPI": "A1c Controlled %",
     "Current": 71.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 72.3,
+    "YTD_Avg": 73.4
   },
   {
     "Org": "Novum",
     "KPI": "BP Control %",
     "Current": 68.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 64.7,
+    "YTD_Avg": 67.5
   },
   {
     "Org": "Novum",
     "KPI": "Depression Screening w/ F/U",
     "Current": 92.0,
-    "Benchmark": 90
+    "Benchmark": 90,
+    "Last_3_Mo_Avg": 96.0,
+    "YTD_Avg": 87.3
   },
   {
     "Org": "Novum",
     "KPI": "Colorectal Screening %",
     "Current": 70.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 69.8,
+    "YTD_Avg": 66.8
   },
   {
     "Org": "Novum",
     "KPI": "Breast Cancer Screening %",
     "Current": 69.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 68.4,
+    "YTD_Avg": 66.5
   },
   {
     "Org": "Novum",
     "KPI": "AWV Completion %",
     "Current": 62.0,
-    "Benchmark": 60
+    "Benchmark": 60,
+    "Last_3_Mo_Avg": 59.9,
+    "YTD_Avg": 63.2
   },
   {
     "Org": "Novum",
     "KPI": "TCM7 Completion %",
     "Current": 95.0,
-    "Benchmark": 95
+    "Benchmark": 95,
+    "Last_3_Mo_Avg": 100.8,
+    "YTD_Avg": 95.5
   },
   {
     "Org": "Novum",
     "KPI": "ACP Completion %",
     "Current": 81.0,
-    "Benchmark": 80
+    "Benchmark": 80,
+    "Last_3_Mo_Avg": 80.4,
+    "YTD_Avg": 83.2
   },
   {
     "Org": "Novum",
     "KPI": "SDOH Completion %",
     "Current": 100.0,
-    "Benchmark": 100
+    "Benchmark": 100,
+    "Last_3_Mo_Avg": 97.9,
+    "YTD_Avg": 98.3
   },
   {
     "Org": "Novum",
     "KPI": "CCM Converted %",
     "Current": 90.0,
-    "Benchmark": 88
+    "Benchmark": 88,
+    "Last_3_Mo_Avg": 88.4,
+    "YTD_Avg": 90.6
   },
   {
     "Org": "ACN",
     "KPI": "INP Admits/1,000",
     "Current": 244.0,
-    "Benchmark": 250
+    "Benchmark": 250,
+    "Last_3_Mo_Avg": 250.5,
+    "YTD_Avg": 250.1
   },
   {
     "Org": "ACN",
     "KPI": "ER Admits/1,000",
     "Current": 305.0,
-    "Benchmark": 300
+    "Benchmark": 300,
+    "Last_3_Mo_Avg": 310.6,
+    "YTD_Avg": 301.2
   },
   {
     "Org": "ACN",
     "KPI": "Readmission Rate (%)",
     "Current": 15.1,
-    "Benchmark": 17
+    "Benchmark": 17,
+    "Last_3_Mo_Avg": 15.4,
+    "YTD_Avg": 15.4
   },
   {
     "Org": "ACN",
     "KPI": "A1c Controlled %",
     "Current": 74.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 75.6,
+    "YTD_Avg": 72.0
   },
   {
     "Org": "ACN",
     "KPI": "BP Control %",
     "Current": 72.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 79.7,
+    "YTD_Avg": 71.0
   },
   {
     "Org": "ACN",
     "KPI": "Depression Screening w/ F/U",
     "Current": 90.0,
-    "Benchmark": 90
+    "Benchmark": 90,
+    "Last_3_Mo_Avg": 88.2,
+    "YTD_Avg": 88.6
   },
   {
     "Org": "ACN",
     "KPI": "Colorectal Screening %",
     "Current": 74.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 72.1,
+    "YTD_Avg": 70.5
   },
   {
     "Org": "ACN",
     "KPI": "Breast Cancer Screening %",
     "Current": 72.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 69.1,
+    "YTD_Avg": 73.4
   },
   {
     "Org": "ACN",
     "KPI": "AWV Completion %",
     "Current": 66.0,
-    "Benchmark": 60
+    "Benchmark": 60,
+    "Last_3_Mo_Avg": 68.0,
+    "YTD_Avg": 64.8
   },
   {
     "Org": "ACN",
     "KPI": "TCM7 Completion %",
     "Current": 97.0,
-    "Benchmark": 95
+    "Benchmark": 95,
+    "Last_3_Mo_Avg": 102.5,
+    "YTD_Avg": 97.0
   },
   {
     "Org": "ACN",
     "KPI": "ACP Completion %",
     "Current": 84.0,
-    "Benchmark": 80
+    "Benchmark": 80,
+    "Last_3_Mo_Avg": 83.5,
+    "YTD_Avg": 85.6
   },
   {
     "Org": "ACN",
     "KPI": "SDOH Completion %",
     "Current": 100.0,
-    "Benchmark": 100
+    "Benchmark": 100,
+    "Last_3_Mo_Avg": 95.8,
+    "YTD_Avg": 101.8
   },
   {
     "Org": "ACN",
     "KPI": "CCM Converted %",
     "Current": 91.0,
-    "Benchmark": 88
+    "Benchmark": 88,
+    "Last_3_Mo_Avg": 87.2,
+    "YTD_Avg": 93.4
   },
   {
     "Org": "DKA",
     "KPI": "INP Admits/1,000",
     "Current": 262.0,
-    "Benchmark": 250
+    "Benchmark": 250,
+    "Last_3_Mo_Avg": 270.5,
+    "YTD_Avg": 261.0
   },
   {
     "Org": "DKA",
     "KPI": "ER Admits/1,000",
     "Current": 298.0,
-    "Benchmark": 300
+    "Benchmark": 300,
+    "Last_3_Mo_Avg": 309.1,
+    "YTD_Avg": 293.0
   },
   {
     "Org": "DKA",
     "KPI": "Readmission Rate (%)",
     "Current": 18.4,
-    "Benchmark": 17
+    "Benchmark": 17,
+    "Last_3_Mo_Avg": 18.9,
+    "YTD_Avg": 18.3
   },
   {
     "Org": "DKA",
     "KPI": "A1c Controlled %",
     "Current": 70.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 67.7,
+    "YTD_Avg": 65.3
   },
   {
     "Org": "DKA",
     "KPI": "BP Control %",
     "Current": 71.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 71.8,
+    "YTD_Avg": 66.9
   },
   {
     "Org": "DKA",
     "KPI": "Depression Screening w/ F/U",
     "Current": 93.0,
-    "Benchmark": 90
+    "Benchmark": 90,
+    "Last_3_Mo_Avg": 93.5,
+    "YTD_Avg": 88.1
   },
   {
     "Org": "DKA",
     "KPI": "Colorectal Screening %",
     "Current": 72.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 72.8,
+    "YTD_Avg": 69.1
   },
   {
     "Org": "DKA",
     "KPI": "Breast Cancer Screening %",
     "Current": 70.0,
-    "Benchmark": 70
+    "Benchmark": 70,
+    "Last_3_Mo_Avg": 73.1,
+    "YTD_Avg": 71.1
   },
   {
     "Org": "DKA",
     "KPI": "AWV Completion %",
     "Current": 61.0,
-    "Benchmark": 60
+    "Benchmark": 60,
+    "Last_3_Mo_Avg": 61.7,
+    "YTD_Avg": 58.8
   },
   {
     "Org": "DKA",
     "KPI": "TCM7 Completion %",
     "Current": 95.0,
-    "Benchmark": 95
+    "Benchmark": 95,
+    "Last_3_Mo_Avg": 98.2,
+    "YTD_Avg": 93.6
   },
   {
     "Org": "DKA",
     "KPI": "ACP Completion %",
     "Current": 79.0,
-    "Benchmark": 80
+    "Benchmark": 80,
+    "Last_3_Mo_Avg": 79.3,
+    "YTD_Avg": 83.1
   },
   {
     "Org": "DKA",
     "KPI": "SDOH Completion %",
     "Current": 100.0,
-    "Benchmark": 100
+    "Benchmark": 100,
+    "Last_3_Mo_Avg": 101.4,
+    "YTD_Avg": 98.6
   },
   {
     "Org": "DKA",
     "KPI": "CCM Converted %",
     "Current": 87.0,
-    "Benchmark": 88
+    "Benchmark": 88,
+    "Last_3_Mo_Avg": 89.7,
+    "YTD_Avg": 89.6
   }
 ]
