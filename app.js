@@ -2,7 +2,18 @@
 async function loadJSON(path){
   const res = await fetch(path, {cache:'no-store'});
   if(!res.ok) throw new Error(`Failed to load ${path}`);
-  return await res.json();
+  const data = await res.json();
+  // normalize: trim whitespace in all string fields (important for Excel-derived data)
+  if(Array.isArray(data)){
+    return data.map(row=>{
+      const out = {};
+      for(const [k,v] of Object.entries(row)){
+        out[k] = (typeof v === 'string') ? v.trim() : v;
+      }
+      return out;
+    });
+  }
+  return data;
 }
 
 function uniq(arr){ return [...new Set(arr.filter(Boolean))].sort(); }
